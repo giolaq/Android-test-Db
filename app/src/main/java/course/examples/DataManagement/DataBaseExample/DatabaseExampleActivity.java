@@ -5,9 +5,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 
 public class DatabaseExampleActivity extends ListActivity {
@@ -34,7 +36,7 @@ public class DatabaseExampleActivity extends ListActivity {
 		// Insert records
 		insertArtists();
 
-		// Create a cursor
+      	// Create a cursor
 		Cursor c = readArtists();
 		mAdapter = new SimpleCursorAdapter(this, R.layout.list_layout, c,
 				DatabaseOpenHelper.columns, new int[] { R.id._id, R.id.name },
@@ -49,10 +51,15 @@ public class DatabaseExampleActivity extends ListActivity {
 			public void onClick(View v) {
 
 				// execute database operations
-				fix();
+				//fix();
 
-				// Redisplay data
-				mAdapter.getCursor().requery();
+				// Redisplay data after query
+                EditText editText = (EditText) findViewById(R.id.editText);
+                String name = editText.getText().toString();
+
+                Cursor c = readArtist(name.trim());
+
+                mAdapter.changeCursor(c);
 				mAdapter.notifyDataSetChanged();
 			}
 		});
@@ -89,6 +96,15 @@ public class DatabaseExampleActivity extends ListActivity {
 				DatabaseOpenHelper.columns, null, new String[] {}, null, null,
 				null);
 	}
+
+    // Returns all artist records in the database
+    private Cursor readArtist(String name) {
+        String whereClause = DatabaseOpenHelper.ARTIST_NAME + " = ?";
+        Log.d("readArtist ",  name);
+        return mDB.query(DatabaseOpenHelper.TABLE_NAME,
+                DatabaseOpenHelper.columns, whereClause, new String[] {name}, null, null,
+                null);
+    }
 
 	// Modify the contents of the database
 	private void fix() {
