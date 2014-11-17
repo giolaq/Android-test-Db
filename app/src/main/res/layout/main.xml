@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@android:id/list"
+         />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fix_button"
+        android:id="@+id/editText"
+        android:text="inserire il nome"/>
+
+    <Button
+        android:id="@+id/fix_button"
+        android:layout_alignBottom="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fix_string"
+        android:textSize="24sp"/>
+
+</RelativeLayout>
